@@ -3,6 +3,8 @@
 #include <iomanip>
 #include <string>
 
+#include "checkwin.h"
+
 #define BOARD_SIZE 15
 
 using namespace std;
@@ -129,6 +131,13 @@ int main()
             // If the move is not valid, skip the rest of this loop iteration
             continue;
         }
+
+        if (checkWin(current_player, board))
+        {
+            cout << "Player " << (3 - current_player) / 2 << " Win!!!" << endl;
+            exit(0);
+        }
+
         // Switch to the other player
         changePlayer();
     }
