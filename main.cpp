@@ -4,6 +4,7 @@
 #include <string>
 
 #include "checkwin.h"
+#include "ai.h"
 
 #define BOARD_SIZE 15
 
@@ -116,13 +117,23 @@ int main()
 
     while (true)
     {
-        // Prompt the current player to make a move
-        cout << "Player " << (3 - current_player) / 2 << " Make Your Move: ";
         int x, y;
-        // Get the player's move
-        cin >> x >> y;
+        if (current_player == 1) {
+            // Prompt the current player to make a move
+            cout << "Player " << (3 - current_player) / 2 << " Make Your Move: ";
+            // Get the player's move
+            cin >> x >> y;
+            x -= 1;
+            y -= 1;
+        } else {
+            tuple<int, int, int> ai_result = getAiMove(current_player, board, 4);
+            x = get<0>(ai_result);
+            y = get<1>(ai_result);
+        }
+
+        
         // If the move is valid, update the game board and print it
-        if (makeMove(current_player, x - 1, y - 1))
+        if (makeMove(current_player, x, y))
         {
             printBoard();
         }
