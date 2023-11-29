@@ -13,6 +13,6 @@ main.o: main.cpp checkwin.h
 	g++ $(FLAGS) -c main.cpp
 
 clean:
-	rm -f checkwin.o main.o ai.o main
+	rm -f checkwin.o main.o ai.o main game_state.txt
 
 .PHONY: clean
