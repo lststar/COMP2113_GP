@@ -1,7 +1,7 @@
 FLAGS = -pedantic-errors -std=c++11
 
 main: main.o checkwin.o ai.o
-	g++ $(FLAGS) main.o checkwin.o ai.o -o main
+	g++ $(FLAGS) main.o checkwin.o ai.o -o main -lncurses
 
 checkwin.o: checkwin.cpp checkwin.h
 	g++ $(FLAGS) -c checkwin.cpp
@@ -13,6 +13,6 @@ main.o: main.cpp checkwin.h
 	g++ $(FLAGS) -c main.cpp
 
 clean:
-	rm -f checkwin.o main.o main
+	rm -f checkwin.o main.o ai.o main
 
 .PHONY: clean
