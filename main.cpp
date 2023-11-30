@@ -508,6 +508,13 @@ int main()
             endwin(); // Safely closing ncurses.h
             printBoard(x, y);
             cout << "Player " << (3 - current_player) / 2 << " Win!!!" << endl;
+            ifstream file("game_state.txt");
+            if (file.good())
+            {
+                file.close();
+                // Now we remove it
+                remove("game_state.txt");
+            }
             return 0;
         }
 
