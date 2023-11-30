@@ -558,8 +558,10 @@ int main()
             endwin(); // Safely closing ncurses.h
             printBoard(x, y);
             cout << endl
-                 << "\033[32m\033[1mPlayer \033[0m" << (3 - current_player) / 2
+                 << "\033[32m\033[1mPlayer \033[0m"
+                 << "\033[32m\033[1m" << (3 - current_player) / 2 << "\033[0m"
                  << "\033[32m\033[1m Wins!!!\033[0m" << endl;
+
             ifstream file("game_state.txt");
             if (file.good())
             {
