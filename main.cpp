@@ -48,18 +48,20 @@ void loadGame()
     }
     else
     {
-        cout << "game_state.txt does not exist yet" << endl;
+        cout << "Error." << endl;
     }
-    cout << "Game successfully loaded from game_state.txt" << endl;
+    cout << "Game successfully loaded." << endl;
 }
 
 // Print welcome message
 void printWelcomeMsg()
 {
     cout << "\033c";
-    cout << "##########################" << endl;
-    cout << "Welcome to Gomoku-Overlord" << endl;
-    cout << "##########################" << endl;
+    cout << "##################################" << endl;
+    cout << "#                                #" << endl;
+    cout << "#   \033[32m\033[1mWelcome to Gomoku-Overlord\033[0m   #" << endl;
+    cout << "#                                #" << endl;
+    cout << "##################################" << endl;
     cout << endl;
 }
 
@@ -69,15 +71,22 @@ void initBoard()
 {
     printWelcomeMsg();
     // Check if there exists a "game_state.txt" in the same folder
-    int load_game;
+    int load_game = 0;
     ifstream file("game_state.txt");
     if (file.good())
     {
-        cout << "A previously saved game detected, enter 1 to load the game, or 0 to start a fresh game: ";
+        cout << "A previously saved game detected, enter \033[32m\033[1m1\033[0m to load the game, or \033[32m\033[1m0\033[0m to start a fresh game: ";
         cin >> load_game;
         cout << endl;
     }
     file.close(); // Close the file
+
+    if (load_game != 0 && load_game != 1) {
+        cout << "Invalid input, try again." << endl << endl;
+        cout << "A previously saved game detected, enter \033[32m\033[1m1\033[0m to load the game, or \033[32m\033[1m0\033[0m to start a fresh game: ";
+        cin >> load_game;
+        cout << endl;
+    }
 
     if (load_game == 1)
     {
@@ -96,13 +105,13 @@ void initBoard()
     }
 
     cout << endl
-         << "Next, you will be prompted to choose your game mode." << endl;
+         << "Please choose your game mode." << endl;
 
     // Player selection of ai_mode
     while (true)
     {
         cout << endl
-             << "Enter 0 for player vs. player mode, or 1 for player vs. AI mode: ";
+             << "Enter \033[32m\033[1m0\033[0m for player vs. player mode, or \033[32m\033[1m1\033[0m for player vs. AI mode: ";
         cin >> ai_mode;
 
         if (ai_mode != 0 && ai_mode != 1)
@@ -116,19 +125,20 @@ void initBoard()
             cout << endl
                  << "Good call, now choose your AI difficulty:" << endl;
             cout << endl
-                 << "Enter 2 for low difficulty, 4 for mid, and 6 for high: ";
+                 << "Enter \033[32m\033[1m1\033[0m for easy, \033[32m\033[1m2\033[0m for normal, and \033[32m\033[1m3\033[0m for hard: ";
             cin >> ai_depth;
-            while (ai_depth != 2 && ai_depth != 4 && ai_depth != 6)
+            while (ai_depth != 1 && ai_depth != 2 && ai_depth != 3)
             {
                 cout << "Invalid input, try again." << endl;
                 cin >> ai_depth;
             }
+            ai_depth *= 2;
             if (ai_depth == 6)
             {
                 cout << endl
-                     << "At high difficulty, it takes longer for AI to calculate its next steps." << endl;
+                     << "At hard difficulty, it takes longer for AI to calculate its steps." << endl;
                 cout << endl
-                     << "Enter 1 to confirm your selection, or 0 to lower the difficulty to mid: ";
+                     << "Enter \033[32m\033[1m1\033[0m to confirm your selection, or \033[32m\033[1m0\033[0m to lower the difficulty to normal: ";
                 int flag;
                 cin >> flag;
                 if (flag == 0)
@@ -281,19 +291,19 @@ bool makeMove(int player, int x, int y)
     // Check if the player is valid (1 or -1)
     if (player != 1 && player != -1)
     {
-        cout << "Error: Player is not defined." << endl;
+        cout << endl << "Error: Player is not defined." << endl;
         return false;
     }
     // Check if the move is within the boundaries of the board
     if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE)
     {
-        cout << "Error: Position out of boundary." << endl;
+        cout << endl << "Error: Position out of boundary." << endl;
         return false;
     }
     // Check if the position on the board is already occupied
     if (board[x][y] != 0)
     {
-        cout << "Error: This position has been occupied." << endl;
+        cout << endl << "Error: This position has been occupied." << endl;
         return false;
     }
     // If all checks pass, make the move and return true
@@ -323,10 +333,10 @@ void saveGame()
     }
     else
     {
-        cout << "Unable to open file" << endl;
+        cout << "Unable to open file." << endl;
     }
     cout << endl
-         << "Game saved to game_state.txt" << endl;
+         << "Game saved." << endl;
 }
 
 // Initialize the game board with / without game_state.txt
@@ -427,7 +437,7 @@ int main()
         {
             if (ai_mode == 1)
             {
-                cout << "AI is thinking hard..." << endl;
+                cout << "AI is thinking..." << endl;
                 tuple<int, int, int> ai_result = getAiMove(current_player, board, ai_depth);
                 x = get<0>(ai_result);
                 y = get<1>(ai_result);
